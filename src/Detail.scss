@@ -13,12 +13,13 @@
 
 .my-alert {
     @include 함수()
-    p {
-        margin-bottom: 0;
-    }
+}
+
+.my-alert p {
+    margin-bottom: 0;
 }
 
 .my-alert-red {
     @extend .my-alert;
-    background: #red;
+    background: red;
 }

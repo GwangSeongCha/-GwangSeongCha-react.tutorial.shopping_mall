@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import styled from 'styled-components';
 import './Detail.scss';
@@ -14,6 +14,12 @@ let 제목 = styled.div`
 
 function Detail(props){
 
+    useEffect(()=>{
+      let timer = setTimeout(()=>{alert변경(false)}, 2000);
+    });
+
+    let [alert, alert변경] = useState(true);
+
     let { id } = useParams();
     let history = useHistory();
     let 찾은상품 = props.shoes.find(x => x.id == id);
@@ -23,9 +29,15 @@ function Detail(props){
         <박스>
             <제목 className="red">Detail</제목>
         </박스>
-        <div className="my-alert">
-            <p>재고가 얼마남지 않았습니다.</p>
-        </div>
+
+        {
+          alert === true 
+          ? <div className="my-alert">
+              <p>재고가 얼마남지 않았습니다.</p>
+            </div>
+          : null
+        }
+
         <div className="row">
           <div className="col-md-6">
             <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
@@ -34,13 +46,23 @@ function Detail(props){
             <h4 className="pt-5">{찾은상품.title}</h4>
             <p>{찾은상품.content}</p>
             <p>{찾은상품.price}</p>
-            <button className="btn btn-danger">주문하기</button> 
+
+            <Info 재고={props.재고}></Info>
+
+            <button className="btn btn-danger" onClick={()=>{ props.재고변경([9, 11, 12]) }}>주문하기</button> 
+            &nbsp;
             <button className="btn btn-danger" onClick={()=>{
-                history.goBack();
+                history.push('/');
             }}>뒤로가기</button> 
           </div>
         </div>
       </div> 
+    )
+  }
+
+  function Info(props){
+    return (
+      <p>재고 : {props.재고[0]}</p>
     )
   }
 
